@@ -2,20 +2,18 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var ejs = require('ejs');
+var _ = require('underscore');
+
 var app = express();
 
 var mongo = require('./mongo');
 
-//var mi1 = new mongo.MetricalInformation({name_cn: "aaa"});
-//var mi2 = new mongo.MetricalInformation({name_cn: "bbb"});
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', __dirname + '/public/views');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
-//mi1.save(function (error) {
-//    if (error) return console.error(error);
-//});
-//
-//mi2.save(function (error) {
-//    if (error) return console.error(error);
-//});
+app.use(bodyParser({keepExtensions : true, uploadDir:__dirname+"/data/upload"}));
 
 //app.get('/add/:nameCN', function (req, res) {
 ////    res.send("field = " +req.params.field);
@@ -60,6 +58,65 @@ app.get('/papers/:pid', function (req, res) {
       for(var i =0;i<result.length;i++){
         res.send(200,'{pid:'+result[i]._id+',title_zh:'+result[i].name_cn+',title_en,'+result[i].name_en+'}');
       }
+    }
+  });
+
+app.get('/papers', function (req, res) {
+    mongo.query(null, null, function (status, result) {
+        if (status) {
+            res.send(404, '{result:' + result + '}');
+        } else {
+            var arr = [
+                {title_zh: "测试文章名称", title_en: "test paper title", url: "http://www.baidu.com", area: "北京"},
+                {title_zh: "测试文章名称", title_en: "test paper title", url: "http://www.baidu.com", area: "北京"}
+            ];
+
+            var data = [];
+        _.each(result, function(e){
+            var o = {
+                pid: e._id,
+                title_zh: e.name_cn,
+                title_en: e.name_en,
+                url: e.url,
+                area: e.region
+            }
+            data.push(o);
+        })
+
+            console.log(arr);
+            console.log(data);
+
+            if (!result || !result.length) return res.render('index', {list: data});
+        }
+    });
+});
+
+app.get('/papers/:pid', function (req, res) {
+  var title_zh = req.query.title_zh;
+  var title_en = req.query.title_en;
+  mongo.query(title_zh, title_en, function (status, result) {
+    if (status) {
+      res.send(404, '{result:' + result + '}');
+    } else {
+       console.log(result);
+        var arr = [
+            {title_zh: "测试文章名称", title_en: "test paper title", url: "http://www.baidu.com", area: "北京"},
+            {title_zh: "测试文章名称", title_en: "test paper title", url: "http://www.baidu.com", area: "北京"}
+        ];
+//
+//        var data = [];
+//        _.each(result, function(e){
+//            var o = {
+//                pid: e._id,
+//                title_zh: e.name_cn,
+//                title_en: e.name_en,
+//                url: e.url,
+//                area: e.region
+//            }
+//            data.push(o);
+//        })
+//        console.log(data);
+        if (!result || !result.length) return res.render('index', {list: arr});
     }
   });
 });
