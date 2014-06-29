@@ -1,5 +1,7 @@
 var express = require('express');
-
+var bodyParser = require('body-parser');
+var path = require('path');
+var ejs = require('ejs');
 var app = express();
 
 var mongo = require('./mongo');
@@ -24,19 +26,42 @@ var mongo = require('./mongo');
 //    });
 //});
 //
-app.get('/papers', function (req, res) {
-    var title_zh = req.query.title_zh;
-    var title_en = req.query.title_en;
 
-    mongo.query(title_zh, title_en, function (status, result) {
-        if (status) {
-            res.send(404, '{result:' + result + '}');
-        } else {
-            for(var i =0;i<result.length;i++){
-                res.send(200,'{pid:'+result[i]._id+',title_zh:'+result[i].name_cn+',title_en,'+result[i].name_en+'}');
-            }
-        }
-    });
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', __dirname + '/public/views');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+app.use(bodyParser({keepExtensions : true, uploadDir:__dirname+"/data/upload"}));
+
+app.get('/papers', function (req, res) {
+  mongo.query(null, null, function (status, result) {
+    if (status) {
+      res.send(404, '{result:' + result + '}');
+    } else {
+      var arr = [{title_zh:"测试文章名称", title_en:"test paper title", url:"http://www.baidu.com", area:"北京"},{title_zh:"测试文章名称", title_en:"test paper title", url:"http://www.baidu.com", area:"北京"}];
+      if(!result || !result.length) return res.render('index', {list:arr});
+      for(var i =0;i<result.length;i++){
+        res.send(200,'{pid:'+result[i]._id+',title_zh:'+result[i].name_cn+',title_en,'+result[i].name_en+'}');
+      }
+    }
+  });
+});
+
+app.get('/papers/:pid', function (req, res) {
+  var title_zh = req.query.title_zh;
+  var title_en = req.query.title_en;
+  mongo.query(title_zh, title_en, function (status, result) {
+    if (status) {
+      res.send(404, '{result:' + result + '}');
+    } else {
+      if(!result || !result.length) return res.render('index');
+      for(var i =0;i<result.length;i++){
+        res.send(200,'{pid:'+result[i]._id+',title_zh:'+result[i].name_cn+',title_en,'+result[i].name_en+'}');
+      }
+    }
+  });
 });
 
 app.post('/papers', function(req, res) {
@@ -87,6 +112,9 @@ app.put('/papers',function(req,res){
     });
 });
 
+app.get('/add', function(req, res){
+  res.render('add');
+});
 
 //app.use(function (req, res, next) {
 //    res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
