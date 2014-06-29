@@ -43,12 +43,12 @@ app.get('/papers', function (req, res) {
 });
 
 app.get('/papers/:pid', function (req, res) {
-    var pid = req.query.pid;
-    mongo.query(pid, function (status, result) {
+    var pid = req.params.pid;
+    mongo.queryByPid(pid, function (status, result) {
         if (status) {
             res.send(404, '{result:' + result + '}');
         } else {
-            return res.render('index');
+            return res.render('detail');
         }
     });
 });

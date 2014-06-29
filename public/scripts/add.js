@@ -12,10 +12,10 @@
       url: "/papers",
       data: data,
       success: function(data){
-        console.log("success", data);
+        location.href = "/prapers"
       },
-      error: function(){
-        console.log("err");
+      error: function(err, data, r){
+        alert("添加失败，请重试");
       }
     });
   });
