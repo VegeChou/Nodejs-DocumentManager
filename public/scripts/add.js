@@ -12,7 +12,7 @@
       url: "/papers",
       data: data,
       success: function(data){
-        location.href = "/prapers"
+        location.href = "/papers"
       },
       error: function(err, data, r){
         alert("添加失败，请重试");

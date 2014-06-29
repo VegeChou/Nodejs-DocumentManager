@@ -11,33 +11,33 @@ db.once('open', function callback () {
 var Schema = mongoose.Schema;
 
 var MetricalInformationSchema = new Schema({
-	name_cn: String,
-	name_en: String,
+	title_zh: String,
+	title_en: String,
 	url: String,
-	region: String,
-	brief_info: String,
-	publication: String
+	area: String,
+	content: String,
+    ctime: Number
 })
 
 var MetricalInformation = mongoose.model('MetricalInformation',MetricalInformationSchema);
 
-exports.add = function(name_cn,name_en,url,region,brief_info,publication,callback){
-  if(name_cn == "" && name_en == ""){
+exports.add = function(title_zh,title_en,url,area,content,callback){
+  if(title_zh == "" && title_en == ""){
     return callback(1,"名称不能均为空");
   } else{
-    MetricalInformation.where('name_cn',name_cn).or().where("name_en",name_en).exec(function(error,mis){
+    MetricalInformation.where('title_zh',title_zh).or().where("title_en",title_en).exec(function(error,mis){
       if(mis.length > 0){
         return callback(1,"已经存在")
       }
       var mi = new MetricalInformation();
       var pid = mi._id;
 
-      mi.name_cn = name_cn;
-      mi.name_en = name_en;
+      mi.title_zh = title_zh;
+      mi.title_en = title_en;
       mi.url = url;
-      mi.region = region;
-      mi.brief_info = brief_info;
-      mi.publication = publication;
+      mi.area = area;
+      mi.content = content;
+      mi.ctime = new Date().getTime();
 
       mi.save(function(error){
         if(error){
@@ -62,15 +62,16 @@ exports.delete = function(pid,callback){
 
 }
 
-exports.update = function(pid,name_cn,name_en,url,region,brief_info,publication,callback){
-    if(name_cn == "" && name_en == ""){
+exports.update = function(pid,title_zh,title_en,url,area,content,callback){
+    if(title_zh == "" && title_en == ""){
         return callback(1,"名称不能均为空");
     } else {
         MetricalInformation.find({_id: pid}, function (error, mis) {
             if (mis.length > 0) {
                 callback(1, "记录不存在")
             } else {
-                MetricalInformation.update({_id:pid},{$set:{name_cn:name_cn,name_en:name_en,url:url,region:region,brief_info:brief_info,publication:publication}},{},function(error,mis){
+                var ctime = new Date().getTime();
+                MetricalInformation.update({_id:pid},{$set:{name_cn:title_zh,name_en:title_en,url:url,region:area,brief_info:content,ctime:ctime}},{},function(error,mis){
                     if(error){
                         callback(1,error);
                     } else{
@@ -96,8 +97,8 @@ exports.queryByPid = function(pid,callback){
     }
 };
 
-exports.query = function(name_cn,name_en,callback){
-    if(!name_cn && !name_en){
+exports.query = function(title_zh,title_en,callback){
+    if(!title_zh && !title_en){
         MetricalInformation.find({},function(error,mis){
             if(error){
                 callback(1,error);
@@ -105,16 +106,16 @@ exports.query = function(name_cn,name_en,callback){
                 callback(0,mis);
             }
         });
-    }else if(!name_cn && name_en){        
-        MetricalInformation.find({name_en:name_en},function(error,mis){
+    }else if(!title_zh && title_en){
+        MetricalInformation.find({title_en:title_en},function(error,mis){
             if(error){
                 callback(1,error);
             } else{
                 callback(0,mis);
             }
         });
-    } else if(!name_en && name_cn){
-        MetricalInformation.find({name_cn:name_cn},function(error,mis){
+    } else if(!title_en && title_zh){
+        MetricalInformation.find({title_zh:title_zh},function(error,mis){
             if(error){
                 callback(1,error);
             } else{

@@ -28,27 +28,31 @@ app.get('/papers', function (req, res) {
             _.each(result, function (e) {
                 var o = {
                     id: e._id,
-                    title_zh: e.name_cn,
-                    title_en: e.name_en,
+                    title_zh: e.title_zh,
+                    title_en: e.title_en,
                     url: e.url,
-                    area: e.region
+                    area: e.area
                 }
                 data.push(o);
             })
-            console.log(data);
-
             return res.render('index', {list: data});
         }
     });
+});
+
+app.get('/papers/detail', function(req, res){
+  return res.render('detail');
 });
 
 app.get('/papers/:pid', function (req, res) {
     var pid = req.params.pid;
     mongo.queryByPid(pid, function (status, result) {
         if (status) {
-            res.send(404, '{result:' + result + '}');
+            res.send(404, result);
         } else {
-            return res.render('detail');
+            console.log(result);
+           // return res.render('detail', result);
+            res.send(result);
         }
     });
 });
@@ -60,7 +64,7 @@ app.post('/papers', function (req, res) {
     var area = req.body.area;
     var content = req.body.content;
 
-    mongo.add(title_zh, title_en,url, area, content, "", function (status, result) {
+    mongo.add(title_zh, title_en,url, area, content, function (status, result) {
         if (status) {
             res.send(404, {result:result});
         } else {
@@ -87,10 +91,9 @@ app.put('/papers', function (req, res) {
     var title_en = req.body.title_en;
     var url = req.body.url;
     var area = req.body.area;
-    var introduction = req.body.introduction;
-    var publication = req.body.publication;
+    var content = req.body.introduction;
 
-    mongo.update(pid, title_zh, title_en, url, area, introduction, publication, function (status, result) {
+    mongo.update(pid, title_zh, title_en, url, area, content, function (status, result) {
         if (status) {
             res.send(404, '{result:' + result + '}');
         } else {
