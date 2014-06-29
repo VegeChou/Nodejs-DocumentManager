@@ -7,8 +7,16 @@
     data.url = $("form #url").val();
     data.area = $("form #area").val();    
     data.content = editor.getContent();
-    $.post("/papers", data, function(){
-
+    $.ajax({
+      type: "POST",
+      url: "/papers",
+      data: data,
+      success: function(data){
+        console.log("success", data);
+      },
+      error: function(){
+        console.log("err");
+      }
     });
   });
 })(jQuery);

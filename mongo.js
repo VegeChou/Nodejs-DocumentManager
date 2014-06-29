@@ -22,37 +22,33 @@ var MetricalInformationSchema = new Schema({
 var MetricalInformation = mongoose.model('MetricalInformation',MetricalInformationSchema);
 
 exports.add = function(name_cn,name_en,url,region,brief_info,publication,callback){
-    if(name_cn == "" && name_en == ""){
-        return callback(1,"名称不能均为空");
-    } else{
-        MetricalInformation.where('name_cn',name_cn).or().where("name_en",name_en).exec(function(error,mis){
-            if(mis.length > 0){
-                callback(1,"已经存在")
-            }
-        });
-//        MetricalInformation.find({name_cn:name_cn},function(error,mis){
-//            if(mis.length > 0){
-//                callback("已经存在")
-//            }
-//        });
-        var mi = new MetricalInformation();
-        var pid = mi._id;
+  if(name_cn == "" && name_en == ""){
+    return callback(1,"名称不能均为空");
+  } else{
+    MetricalInformation.where('name_cn',name_cn).or().where("name_en",name_en).exec(function(error,mis){
+      if(mis.length > 0){
+        return callback(1,"已经存在")
+      }
+      var mi = new MetricalInformation();
+      var pid = mi._id;
 
-        mi.name_cn = name_cn;
-        mi.name_en = name_en;
-        mi.url = url;
-        mi.region = region;
-        mi.brief_info = brief_info;
-        mi.publication = publication;
+      mi.name_cn = name_cn;
+      mi.name_en = name_en;
+      mi.url = url;
+      mi.region = region;
+      mi.brief_info = brief_info;
+      mi.publication = publication;
 
-        mi.save(function(error){
-            if(error){
-                callback(1,error);
-            } else{
-                callback(0,pid);
-            }
-        });
-    }
+      mi.save(function(error){
+        if(error){
+          callback(1,error);
+        } else{
+          callback(0,pid);
+        }
+      });
+
+    });
+  }
 }
 
 exports.delete = function(pid,callback){

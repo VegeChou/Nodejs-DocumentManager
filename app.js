@@ -61,12 +61,11 @@ app.post('/papers', function (req, res) {
     var area = req.body.area;
     var content = req.body.content;
 
-    mongo.add(title_zh, title_en,url, area, content, null, function (status, result) {
+    mongo.add(title_zh, title_en,url, area, content, "", function (status, result) {
         if (status) {
-            res.send(404, '{result:' + result + '}');
+            res.send(404, {result:result});
         } else {
-            shortintroduction = introduction;
-            res.send(200,"{result:success}");
+            res.send(200,{message:result});
         }
     });
 });
