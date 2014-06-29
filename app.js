@@ -27,7 +27,7 @@ app.get('/papers', function (req, res) {
             var data = [];
             _.each(result, function (e) {
                 var o = {
-                    pid: e._id,
+                    id: e._id,
                     title_zh: e.name_cn,
                     title_en: e.name_en,
                     url: e.url,
@@ -49,12 +49,7 @@ app.get('/papers/:pid', function (req, res) {
         if (status) {
             res.send(404, '{result:' + result + '}');
         } else {
-            console.log(result);
-            var arr = [
-                {title_zh: "测试文章名称", title_en: "test paper title", url: "http://www.baidu.com", area: "北京"},
-                {title_zh: "测试文章名称", title_en: "test paper title", url: "http://www.baidu.com", area: "北京"}
-            ];
-            if (!result || !result.length) return res.render('index', {list: arr});
+            return res.render('index');
         }
     });
 });
@@ -64,10 +59,9 @@ app.post('/papers', function (req, res) {
     var title_en = req.body.title_en;
     var url = req.body.url;
     var area = req.body.area;
-    var introduction = req.body.introduction;
-    var publication = req.body.publication;
+    var content = req.body.content;
 
-    mongo.add(title_zh, title_en, area, introduction, publication, function (status, result) {
+    mongo.add(title_zh, title_en,url, area, content, null, function (status, result) {
         if (status) {
             res.send(404, '{result:' + result + '}');
         } else {
