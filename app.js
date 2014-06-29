@@ -12,25 +12,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', __dirname + '/public/views');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-
-app.use(bodyParser({keepExtensions : true, uploadDir:__dirname+"/data/upload"}));
-
-//app.get('/add/:nameCN', function (req, res) {
-////    res.send("field = " +req.params.field);
-//    var nameCN = req.params.nameCN;
-//
-//    mongo.add(nameCN, '', '', '', '', '',function(error){
-//        res.send(error);
-//    });
-//});
-//
-
-
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', __dirname + '/public/views');
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-
 app.use(bodyParser({keepExtensions : true, uploadDir:__dirname+"/data/upload"}));
 
 app.get('/papers', function (req, res) {
@@ -60,6 +41,7 @@ app.get('/papers/:pid', function (req, res) {
       }
     }
   });
+});
 
 app.get('/papers', function (req, res) {
     mongo.query(null, null, function (status, result) {
@@ -103,19 +85,6 @@ app.get('/papers/:pid', function (req, res) {
             {title_zh: "测试文章名称", title_en: "test paper title", url: "http://www.baidu.com", area: "北京"},
             {title_zh: "测试文章名称", title_en: "test paper title", url: "http://www.baidu.com", area: "北京"}
         ];
-//
-//        var data = [];
-//        _.each(result, function(e){
-//            var o = {
-//                pid: e._id,
-//                title_zh: e.name_cn,
-//                title_en: e.name_en,
-//                url: e.url,
-//                area: e.region
-//            }
-//            data.push(o);
-//        })
-//        console.log(data);
         if (!result || !result.length) return res.render('index', {list: arr});
     }
   });
@@ -172,26 +141,4 @@ app.put('/papers',function(req,res){
 app.get('/add', function(req, res){
   res.render('add');
 });
-
-//app.use(function (req, res, next) {
-//    res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
-//    mongo.MetricalInformation.find({name_cn: /计量局/}, function (error, mis) {
-//        if (error) {
-//            return console.error(error)
-//        }
-//        ;
-//        for (var i = 0; i < mis.length; i++) {
-//            if (mis[i].name_cn == '国际计量局（BIPM）') {
-//                res.write('已存在');
-//            } else {
-//                res.write(mis[i].name_cn);
-//            }
-//        }
-//        ;
-//
-//        res.end('over');
-//    });
-//
-//});
-
 app.listen(5000);
