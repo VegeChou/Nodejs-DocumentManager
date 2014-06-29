@@ -43,9 +43,8 @@ app.get('/papers', function (req, res) {
 });
 
 app.get('/papers/:pid', function (req, res) {
-    var title_zh = req.query.title_zh;
-    var title_en = req.query.title_en;
-    mongo.query(title_zh, title_en, function (status, result) {
+    var pid = req.query.pid;
+    mongo.query(pid, function (status, result) {
         if (status) {
             res.send(404, '{result:' + result + '}');
         } else {

@@ -82,6 +82,20 @@ exports.update = function(pid,name_cn,name_en,url,region,brief_info,publication,
     }
 }
 
+exports.queryByPid = function(pid,callback){
+    if(!pid){
+        callback(1,"pid不能为空");
+    } else{
+        MetricalInformation.findById(pid,{},{},function(error,mis){
+            if(error){
+                callback(1,error);
+            } else{
+                callback(0,mis);
+            }
+        });
+    }
+};
+
 exports.query = function(name_cn,name_en,callback){
     if(!name_cn && !name_en){
         MetricalInformation.find({},function(error,mis){
