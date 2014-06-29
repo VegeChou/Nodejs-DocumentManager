@@ -87,7 +87,15 @@ exports.update = function(pid,name_cn,name_en,url,region,brief_info,publication,
 }
 
 exports.query = function(name_cn,name_en,callback){
-    if(name_cn == ""){
+    if(!name_cn && !name_en){
+        MetricalInformation.find({},function(error,mis){
+            if(error){
+                callback(1,error);
+            } else{
+                callback(0,mis);
+            }
+        });
+    }else if(!name_cn && name_en){        
         MetricalInformation.find({name_en:name_en},function(error,mis){
             if(error){
                 callback(1,error);
@@ -95,7 +103,7 @@ exports.query = function(name_cn,name_en,callback){
                 callback(0,mis);
             }
         });
-    } else{
+    } else if(!name_en && name_cn){
         MetricalInformation.find({name_cn:name_cn},function(error,mis){
             if(error){
                 callback(1,error);
@@ -104,6 +112,8 @@ exports.query = function(name_cn,name_en,callback){
             }
         });
 
+    }else {
+      callback(null, []);
     }
 
 }
