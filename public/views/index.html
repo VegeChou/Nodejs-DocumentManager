@@ -40,7 +40,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">添加新文章</a></li>
+            <li><a href="/add">添加新文章</a></li>
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
@@ -66,11 +66,14 @@
             <tbody>
               <% for(var i=0; i<= list.length; i++) { if(list[i]){%>
               <tr>
+                <td><%= list[i].id %></td>
                 <td><%= list[i].title_zh %></td>
-                <td><%= list[i].title_en%></td>
-                <td><%= list[i].url%></td>
-                <td><%= list[i].area%></td>
-                <td>sit</td>
+                <td><%= list[i].title_en %></td>
+                <td><%= list[i].url %></td>
+                <td><%= list[i].area %></td>
+                <td>
+                  <button type="button" class="btn btn-xs btn-danger", id="remove">删除</button>
+                </td>
                 <td>
                 </td>
                 <% }} %>
