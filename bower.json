@@ -1,0 +1,19 @@
+{
+  "name": "pages",
+  "version": "0.0.0",
+  "dependencies": {
+    "jquery": "~1.10.2"
+  },
+  "authors": [
+    "liuxiaodong <liuxiaodong1989@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ]
+}
