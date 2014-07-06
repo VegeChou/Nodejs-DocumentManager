@@ -91,7 +91,7 @@ app.put('/papers/:pid', function (req, res) {
     var title_en = req.body.title_en;
     var url = req.body.url;
     var area = req.body.area;
-    var content = req.body.introduction;
+    var content = req.body.content;
     mongo.update(pid, title_zh, title_en, url, area, content, function (status, result) {
         if (status) {
             res.send(404, '{result:' + result + '}');

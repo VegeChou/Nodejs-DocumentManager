@@ -24,6 +24,8 @@
        var wd = $("#search-papers").val().trim();
        if(wd){
          location.href = "papers?wd="+wd;
+       }else {
+         location.href = "papers";
        }
      }
   });

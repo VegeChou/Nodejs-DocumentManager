@@ -16,6 +16,11 @@
     <!-- Custom styles for this template -->
     <link href="/style/offcanvas.css" rel="stylesheet">
 
+    <style>
+      small span{
+        padding: 0px 5px 0px 5px;
+      }
+    </style>
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -52,9 +57,17 @@
           <h4>
             <span id="title-zh"></span>
           </h4>
-          <h4><small id="title-en"></small></h4>
-          <h4><small id="url"><small></h4>
-          <h4><small id="area"><small></h4>
+          <h5>
+            <small>
+              <span>英文名称 </span><span id="title-en"></span>
+              |
+              <span>机构网址</span><span id="url"><a href=""></a></span>
+              |
+              <span>所属国家</span><span id="area"></span>
+              |
+              <span>更新时间</span><span id="time"></span>
+            </small>
+          </h5>
         </div>
         <p id="page-content" style="border:solid 1px;padding: 0px 60px 0px 60px;"></p>
       </div>
@@ -67,6 +80,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/bower_components/jquery/jquery.min.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/bower_components/moment/min/moment.min.js"></script>
     <script src="/scripts/offcanvas.js"></script>
     <script src="/scripts/detail.js"></script>
   </body>

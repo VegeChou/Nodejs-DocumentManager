@@ -72,7 +72,6 @@ exports.update = function (pid, title_zh, title_en, url, area, content, callback
             } else {
                 var ctime = new Date().getTime();
                 MetricalInformation.update({_id: pid}, {$set: {title_zh: title_zh, title_en: title_en, url: url, area: area, content: content, ctime: ctime}}, {}, function (error, mis) {
-                  console.log(error, mis);
                     if (error) {
                         callback(1, error);
                     } else {

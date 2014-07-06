@@ -39,6 +39,7 @@
         location.href = "/papers";
       },
       error: function(err, data, r){
+        console.log(r);
         alert("修改失败，请重试");
       }
     });
