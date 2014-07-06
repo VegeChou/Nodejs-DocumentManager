@@ -4,7 +4,7 @@
     if(flag){
       var that = this.parentNode.parentNode.parentNode;
       var view = this.parentNode.parentNode;
-      var pid = $($(view).find('td')[0]).text();
+      var pid = view.id;
       $.ajax({
         type: "DELETE",
         url: "papers/"+pid,

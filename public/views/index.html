@@ -64,7 +64,7 @@
             </thead>
             <tbody>
               <% for(var i=0; i<= list.length; i++) { if(list[i]){%>
-              <tr>
+              <tr id="<%=list[i].id%>">
                 <td><a href="/papers/detail?pid=<%=list[i].id%>"><%= list[i].title_zh %></a></td>
                 <td><%= list[i].title_en %></td>
                 <td><%= list[i].url %></td>
