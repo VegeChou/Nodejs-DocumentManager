@@ -20,4 +20,9 @@
       }
     });
   }
+
+  $("#update").click(function(){
+    location.href = "/update?pid="+pid;
+  });
+
 })(jQuery);

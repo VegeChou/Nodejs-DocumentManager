@@ -12,7 +12,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/umeditor/themes/default/css/umeditor.css">
     <!-- Custom styles for this template -->
     <link href="/style/offcanvas.css" rel="stylesheet">
 
@@ -40,46 +40,42 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/add">添加新文章</a></li>
+            <li><a href="#">添加新文章</a></li>
           </ul>
-          <div class="navbar-form navbar-right">
-            <input type="text" class="form-control" id="search-papers" placeholder="Search...">
-          </div>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
         </div>
       </div>
     </div>
 
-    <div class="container", style="margin-top: 70px;">
+    <div class="container">
+      <h1>修改文章</h1>
       <div class="row row-offcanvas row-offcanvas-right">
-        <div class="table-responsive">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>中文名称</th>
-                <th>English Name</th>
-                <th>网址</th>
-                <th>地区</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% for(var i=0; i<= list.length; i++) { if(list[i]){%>
-              <tr>
-                <td><a href="/papers/detail?pid=<%=list[i].id%>"><%= list[i].id %></a></td>
-                <td><%= list[i].title_zh %></td>
-                <td><%= list[i].title_en %></td>
-                <td><%= list[i].url %></td>
-                <td><%= list[i].area %></td>
-                <td>
-                  <button type="button" class="btn btn-xs btn-danger", id="remove">删除</button>
-                </td>
-                <td>
-                </td>
-                <% }} %>
-              </tr>
-            </tbody>
-          </table>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <form onsubmit="return false">
+              <div class="page-header">
+                <div class="form-group">
+                  <input type="text" class="form-control" value="", id="title_zh" placeholder="请输入中文名称" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="title_en" placeholder="Enter English Name" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="url" placeholder="请输入网址" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="area" placeholder="请输入区域" required>
+                </div>
+              </div>
+              <div id="myEditor"></div>
+              <hr />
+              <div class="pull-right">
+                <button type="submit" class="btn btn-success" id="confirm">提交</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div><!--/.container-->
@@ -92,6 +88,10 @@
     <script src="/bower_components/jquery/jquery.min.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/scripts/offcanvas.js"></script>
-    <script src="/scripts/app.js"></script>
+
+    <script src="/umeditor/umeditor.config.js"></script>
+    <script src="/umeditor/umeditor.js"></script>
+    <script src="/umeditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="/scripts/update.js"></script>
   </body>
 </html>

@@ -51,7 +51,6 @@ app.get('/papers/:pid', function (req, res) {
         if (status) {
             res.send(404, result);
         } else {
-            console.log(result);
            // return res.render('detail', result);
             res.send(result);
         }
@@ -86,14 +85,13 @@ app.delete('/papers/:pid', function (req, res) {
 
 });
 
-app.put('/papers', function (req, res) {
-    var pid = req.body.pid;
+app.put('/papers/:pid', function (req, res) {
+    var pid = req.params.pid;
     var title_zh = req.body.title_zh;
     var title_en = req.body.title_en;
     var url = req.body.url;
     var area = req.body.area;
     var content = req.body.introduction;
-
     mongo.update(pid, title_zh, title_en, url, area, content, function (status, result) {
         if (status) {
             res.send(404, '{result:' + result + '}');
@@ -105,6 +103,14 @@ app.put('/papers', function (req, res) {
 
 app.get("/add", function(req, res){
   res.render("add");
+});
+
+app.get("/update", function(req, res){
+  res.render("update");
+});
+
+app.get('*', function(req, res){
+  res.redirect('papers');
 });
 
 app.listen(5000);

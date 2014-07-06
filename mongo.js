@@ -67,11 +67,12 @@ exports.update = function (pid, title_zh, title_en, url, area, content, callback
         return callback(1, "名称不能均为空");
     } else {
         MetricalInformation.find({_id: pid}, function (error, mis) {
-            if (mis.length > 0) {
+            if (mis.length < 1) {
                 callback(1, "记录不存在")
             } else {
                 var ctime = new Date().getTime();
                 MetricalInformation.update({_id: pid}, {$set: {name_cn: title_zh, name_en: title_en, url: url, region: area, brief_info: content, ctime: ctime}}, {}, function (error, mis) {
+                  console.log(error, mis);
                     if (error) {
                         callback(1, error);
                     } else {

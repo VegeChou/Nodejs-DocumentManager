@@ -18,4 +18,13 @@
       })
     }
   });
+
+  $("#search-papers").on('keydown', function(e){
+     if(e.keyCode === 13){
+       var wd = $("#search-papers").val().trim();
+       if(wd){
+         location.href = "papers?wd="+wd;
+       }
+     }
+  });
 })(jQuery);
