@@ -98,8 +98,8 @@ exports.queryByPid = function (pid, callback) {
     }
 };
 
-exports.queryByName = function (title_zh, callback) {
-    if (!title_zh) {
+exports.queryByName = function (wd, callback) {
+    if (!wd) {
         MetricalInformation.find({}, function (error, mis) {
             if (error) {
                 callback(1, error);
@@ -108,15 +108,39 @@ exports.queryByName = function (title_zh, callback) {
             }
         });
     } else {
-        var query = {};
-        query['title_zh'] = new RegExp(title_zh);//模糊查询参数
-        MetricalInformation.find(query, function (error, mis) {
+        var query = MetricalInformation.find({});
+        var condition = [];
+        var title_zh = {};
+        title_zh['title_zh'] = new RegExp(wd);
+        condition.push(title_zh);
+        var title_en = {};
+        title_en['title_en'] = new RegExp(wd);
+        condition.push(title_en);
+        var url = {};
+        url['url'] = new RegExp(wd);
+        condition.push(url);
+        var area = {};
+        area['area'] = new RegExp(wd);
+        condition.push(area);
+        query.or(condition);
+        query.exec(function (error, mis) {
             if (error) {
                 callback(1, error);
             } else {
                 callback(0, mis);
             }
         });
+
+
+//        var query = {};
+//        query['title_zh'] = new RegExp(title_zh);//模糊查询参数
+//        MetricalInformation.find(query, function (error, mis) {
+//            if (error) {
+//                callback(1, error);
+//            } else {
+//                callback(0, mis);
+//            }
+//        });
 
     }
 }
