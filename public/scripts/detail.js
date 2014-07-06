@@ -15,7 +15,9 @@
         $("#url a").text(data.url);
         $("#area").text(data.area);
         $("#page-content").html(data.content);
-        $('#url a').attr('href',data.url);
+        var u = data.url;
+        if(u.indexOf("http") === -1) u = "/" + u;
+        $('#url a').attr('href', u);
         var time = moment(Number(data.ctime)).format("YYYY-MM-DD HH:mm");
         $("#time").text(time);
       },
