@@ -55,7 +55,6 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>中文名称</th>
                 <th>English Name</th>
                 <th>网址</th>
@@ -66,8 +65,7 @@
             <tbody>
               <% for(var i=0; i<= list.length; i++) { if(list[i]){%>
               <tr>
-                <td><a href="/papers/detail?pid=<%=list[i].id%>"><%= list[i].id %></a></td>
-                <td><%= list[i].title_zh %></td>
+                <td><a href="/papers/detail?pid=<%=list[i].id%>"><%= list[i].title_zh %></a></td>
                 <td><%= list[i].title_en %></td>
                 <td><%= list[i].url %></td>
                 <td><%= list[i].area %></td>
@@ -84,7 +82,7 @@
       </div>
     </div><!--/.container-->
 
-
+    <div class="footer" style="padding:110px 0px 0px 0px;"></div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
