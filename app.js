@@ -15,7 +15,8 @@ app.set('view engine', 'html');
 app.use(bodyParser({keepExtensions: true, uploadDir: __dirname + "/data/upload"}));
 
 app.get('/papers', function (req, res) {
-    mongo.query(null, null, function (status, result) {
+    var title_zh = req.query.wd;
+    mongo.queryByName(title_zh, function (status, result) {
         if (status) {
             res.send(404, '{result:' + result + '}');
         } else {
