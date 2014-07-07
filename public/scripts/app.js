@@ -9,8 +9,8 @@
         type: "DELETE",
         url: "papers/"+pid,
         success: function(data){
-          view.remove();
-        },
+          view.parentNode.removeChild(view);
+         },
         error: function(){
           alert("删除错误，请重试");
           location.reload();
